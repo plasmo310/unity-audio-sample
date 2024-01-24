@@ -43,7 +43,7 @@ namespace Spectrum
         [SerializeField] protected int _rendererSampleCount = 128;
 
         [Tooltip("Rendererの周波数表示倍率")]
-        [Range(0, 500)]
+        [Range(0, 1000)]
         [SerializeField] protected int _rendererFrequencyGain = 100;
 
         [Tooltip("Rendererの最大高さ")]
@@ -93,7 +93,19 @@ namespace Spectrum
             // 周波数データを取得して指定範囲にフィルタ
             var spectrumDataArray = _getSpectrumDataFunc.Invoke(FrequencyResolution);
             spectrumDataArray = GetFilteredSpectrumDataArray(spectrumDataArray, _filterMinFrequency, _filterMaxFrequency);
-            UpdateRenderer(spectrumDataArray);
+
+            // 描画用配列の数に合わせてデータを整形する
+            var dataLength = spectrumDataArray.Length;
+            var renderLength = _rendererSampleCount;
+            var rendererSpectrumDataArray = new float[renderLength];
+            var prevDataIndex = 0;
+            for (var i = 0; i < renderLength; i++)
+            {
+                var dataIndex = Mathf.Min(Mathf.CeilToInt((i + 1) * ((float)dataLength / renderLength)), dataLength - 1);
+                rendererSpectrumDataArray[i] = GetAverageSpectrumDataValue(spectrumDataArray, prevDataIndex, dataIndex);
+                prevDataIndex = dataIndex;
+            }
+            UpdateRenderer(rendererSpectrumDataArray);
         }
 
         /// <summary>

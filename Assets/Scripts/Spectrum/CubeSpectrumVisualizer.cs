@@ -37,15 +37,20 @@ namespace Spectrum
 
         private void CreateCubeObjects(int sampleCount, float range, Vector3 rootPosition)
         {
-            if (_cubeObjectArray == null)
+            if (_cubeObjectArray != null && _cubeObjectArray.Length > 0)
             {
-                _cubeObjectArray = new GameObject[sampleCount];
-                for (var i = 0; i < sampleCount; i++)
+                foreach (var cubeObject in _cubeObjectArray)
                 {
-                    var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    cube.transform.parent = gameObject.transform;
-                    _cubeObjectArray[i] = cube;
+                    Destroy(cubeObject);
                 }
+            }
+
+            _cubeObjectArray = new GameObject[sampleCount];
+            for (var i = 0; i < sampleCount; i++)
+            {
+                var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                cube.transform.parent = gameObject.transform;
+                _cubeObjectArray[i] = cube;
             }
 
             for (var i = 0; i < _cubeObjectArray.Length; i++)
@@ -55,14 +60,17 @@ namespace Spectrum
             }
         }
 
+        private int _cubeRendererSampleCount;
         private float _cubeRendererRange;
         private Vector3 _cubeRendererRootPosition;
 
         private bool UpdateCubeRendererInfo()
         {
-            if (!Mathf.Approximately(_rendererRange, _cubeRendererRange)
+            if (_rendererSampleCount != _cubeRendererSampleCount
+                || !Mathf.Approximately(_rendererRange, _cubeRendererRange)
                 || RendererRootPosition != _cubeRendererRootPosition)
             {
+                _cubeRendererSampleCount = _rendererSampleCount;
                 _cubeRendererRange = _rendererRange;
                 _cubeRendererRootPosition = RendererRootPosition;
                 return true;

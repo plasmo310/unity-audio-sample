@@ -97,15 +97,9 @@ namespace Spectrum
         private void UpdateLineRenderer(float[] dataArray)
         {
             // Renderer用にデータを整形して表示
-            var dataLength = dataArray.Length;
-            var renderLength = _lineRendererPositionArray.Length;
-            var prevDataIndex = 0;
-            for (var i = 0; i < renderLength; i++)
+            for (var i = 0; i < _lineRendererPositionArray.Length; i++)
             {
-                var dataIndex = Mathf.Min(Mathf.CeilToInt((i + 1) * ((float)dataLength / renderLength)), dataLength - 1);
-                var dataValue = GetAverageSpectrumDataValue(dataArray, prevDataIndex, dataIndex);
-                _lineRendererPositionArray[i] = GetLineRendererPosition(i, _rendererSampleCount, _rendererRange, gameObject.transform.localPosition, dataValue);
-                prevDataIndex = dataIndex;
+                _lineRendererPositionArray[i] = GetLineRendererPosition(i, _rendererSampleCount, _rendererRange, gameObject.transform.localPosition, dataArray[i]);
             }
             _lineRenderer.SetPositions(_lineRendererPositionArray);
         }

@@ -1680,7 +1680,7 @@ MonoBehaviour:
   _filterMinFrequency: 2000
   _filterMaxFrequency: 20000
   _rendererSampleCount: 128
-  _rendererFrequencyGain: 300
+  _rendererFrequencyGain: 500
   _rendererMaxHeight: 3
   _rendererRange: 10
   _initLineRendererWidth: 0.05
@@ -1732,7 +1732,7 @@ MonoBehaviour:
   _filterMinFrequency: 2000
   _filterMaxFrequency: 20000
   _rendererSampleCount: 32
-  _rendererFrequencyGain: 300
+  _rendererFrequencyGain: 1000
   _rendererMaxHeight: 10
   _rendererRange: 10
   _cubeScaleX: 0.3
